@@ -183,7 +183,7 @@ void TcpTransmitter(const char *serverIP, int serverPort) {
         char *message = MessageMapSingleton::GetInstance().GetCustomMessageContainer().getMessage();
         if (message != nullptr) {
             size_t sent_bytes = send(sockfd, message, sizeof(Message), 0);
-            if (sent_bytes != -1) {
+            if (sent_bytes == -1) {
                 perror("[TcpTransmitter]187 sendto failed");
             } else {
                 printf("[TcpTransmitter]189 Sent %llu bytes\n", sent_bytes);
