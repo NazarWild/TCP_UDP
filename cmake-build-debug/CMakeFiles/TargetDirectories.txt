@@ -1,0 +1,3 @@
+C:/Users/Admin/Desktop/Atto Trading/project_/cmake-build-debug/CMakeFiles/MyApp.dir
+C:/Users/Admin/Desktop/Atto Trading/project_/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Admin/Desktop/Atto Trading/project_/cmake-build-debug/CMakeFiles/rebuild_cache.dir
