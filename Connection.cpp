@@ -4,6 +4,14 @@
 #include <iostream>
 #include <thread>
 
+#ifdef _WIN32
+#else
+#define INVALID_SOCKET  (SOCKET)(~0)
+#define SOCKET_ERROR            (-1)
+using SOCKET = int
+#endif
+
+
 void CloseSocket(SOCKET sock) {
 #ifdef _WIN32
     closesocket(sock);
@@ -78,7 +86,7 @@ void UdpReceiver(int port) {
     sockaddr_in servaddr, cliaddr;
     SOCKET sockfd = socket(AF_INET, SOCK_DGRAM, 0);
     if (sockfd == -1) {
-        printf("[UdpReceiver] socket failed with error: %ld\n", WSAGetLastError());
+        printf("[UdpReceiver] socket failed\n");
         return;
     }
 
@@ -182,7 +190,7 @@ void TcpTransmitter(const char *serverIP, int serverPort) {
                 printf("Send failed with error: %ld\n", WSAGetLastError());
                 break;
             }
-            printf("[TcpTransmitter] Sent %zu bytes\n", message, sent_bytes);
+            printf("[TcpTransmitter] Sent %zu bytes\n", sent_bytes);
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
         }
     }
@@ -245,7 +253,8 @@ void TcpReceiver(int port) {
                 if ((bytes_read = recv(connfd, buffer, sizeof(buffer), 0)) > 0) {
                     buffer[bytes_read] = '\0';
                     const Message msg = DeserializeMessage(buffer);
-                    printf("[TcpReceiver] Received msg id = %li, type = %llu, size = %llu, data = %li, \n", msg.id,
+                    printf("[TcpReceiver] Received msg id = %llu, type = %I32u, size = %u, data = %llu, \n",
+                           msg.id,
                            msg.type,
                            msg.size, msg.data);
                 }
