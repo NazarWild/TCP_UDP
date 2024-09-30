@@ -2,7 +2,6 @@
 #define CONNECTION_H
 
 #include "Message.h"
-#include "CustomMessageContainer.h"
 
 #ifdef _WIN32
 #include <Winsock2.h>
@@ -18,7 +17,7 @@
 
 #define INVALID_SOCKET  (SOCKET)(~0)
 #define SOCKET_ERROR            (-1)
-using SOCKET = int
+using SOCKET = int;
 
 #endif
 

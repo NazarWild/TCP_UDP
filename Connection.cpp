@@ -98,8 +98,13 @@ void UdpReceiver(int port) {
         return;
     }
 
-    int len, n;
-    len = sizeof(cliaddr);
+    int n;
+
+#ifdef _WIN32
+    int len = sizeof(cliaddr);
+#else
+    socklen_t len = sizeof(cliaddr);
+#endif
 
     while (!MessageMapSingleton::GetInstance().must_stop_) {
         char buffer[2048];
@@ -123,7 +128,7 @@ void TcpTransmitter(const char *serverIP, int serverPort) {
 
     SOCKET sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd == INVALID_SOCKET) {
-        printf("[TcpTransmitter] Socket creation failed with error: %ld\n", WSAGetLastError());
+        printf("[TcpTransmitter] Socket creation failed\n");
         WSAClean();
         return;
     }
@@ -151,7 +156,8 @@ void TcpTransmitter(const char *serverIP, int serverPort) {
         FD_SET(sockfd, &writefds);
         timeval timeout = {5, 0};
 
-        int selRes = select(0, NULL, &writefds, NULL, &timeout);
+        int nfds = sockfd + 1;
+        int selRes = select(nfds, NULL, &writefds, NULL, &timeout);
         if (selRes > 0) {
             int so_error;
             socklen_t len = sizeof(so_error);
@@ -179,7 +185,7 @@ void TcpTransmitter(const char *serverIP, int serverPort) {
         while ((message = container.getMessage()) != nullptr) {
             size_t sent_bytes = send(sockfd, message, sizeof(Message), 0);
             if (sent_bytes < 0) {
-                printf("Send failed with error: %ld\n", WSAGetLastError());
+                printf("Send failed\n");
                 break;
             }
             printf("[TcpTransmitter] Sent %zu bytes\n", sent_bytes);
@@ -227,7 +233,11 @@ void TcpReceiver(int port) {
 
     SOCKET connfd;
     sockaddr_in cliaddr{};
+#ifdef _WIN32
     int cliaddrlen = sizeof(cliaddr);
+#else
+    socklen_t cliaddrlen = sizeof(cliaddr);
+#endif
 
     while (!MessageMapSingleton::GetInstance().must_stop_) {
         connfd = accept(sockfd, (sockaddr *) &cliaddr, &cliaddrlen);
