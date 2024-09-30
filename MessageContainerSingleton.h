@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MESSAGECONTAINERSINGLETON_H
+#define MESSAGECONTAINERSINGLETON_H
 
 #include <mutex>
 #include "MessageContainer.h"
@@ -15,7 +16,7 @@ public:
 
     MessageMapSingleton &operator=(const MessageMapSingleton &) = delete;
 
-    void ProcessMessage(const char *buffer, int length);
+    void ProcessMessage(const char *buffer);
 
     CustomMessageContainer &GetCustomMessageContainer();
 
@@ -32,3 +33,5 @@ private:
     MessageContainer map_;
     CustomMessageContainer map_for_send_;
 };
+
+#endif //MESSAGECONTAINERSINGLETON_H

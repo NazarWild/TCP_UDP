@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MESSAGE_H
+#define MESSAGE_H
+
 
 #include <cstdint>
 
@@ -13,3 +15,5 @@ typedef struct Message {
 char *SerializeMessage(const Message &msg);
 
 Message DeserializeMessage(const char *buffer);
+
+#endif //MESSAGE_H

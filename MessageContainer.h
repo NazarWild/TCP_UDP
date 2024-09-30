@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MESSAGECONTAINER_H
+#define MESSAGECONTAINER_H
 
 #include "Message.h"
 
@@ -22,3 +23,5 @@ private:
 
     Message **table;
 };
+
+#endif //MESSAGECONTAINER_H

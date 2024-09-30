@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CONNECTION_H
+#define CONNECTION_H
 
 #include "Message.h"
 #include "CustomMessageContainer.h"
@@ -28,3 +29,5 @@ void UdpReceiver(int port);
 void TcpTransmitter(const char *serverIP, int serverPort);
 
 void TcpReceiver(int port);
+
+#endif //CONNECTION_H

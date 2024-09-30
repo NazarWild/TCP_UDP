@@ -1,6 +1,6 @@
 #include "MessageContainerSingleton.h"
 
-void MessageMapSingleton::ProcessMessage(const char *buffer, int length) {
+void MessageMapSingleton::ProcessMessage(const char *buffer) {
     const Message msg = DeserializeMessage(buffer);
 
     printf("ProcessMessage msg id = %li, type = %llu, size = %llu, data = %li, \n", msg.id, msg.type, msg.size,
@@ -20,7 +20,6 @@ CustomMessageContainer &MessageMapSingleton::GetCustomMessageContainer() {
 
 void MessageMapSingleton::StopThreads() {
     must_stop_ = true;
-    map_for_send_.finish();
 }
 
 void MessageMapSingleton::insertMessage(const Message &message) {

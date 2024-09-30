@@ -1,4 +1,5 @@
 #include "CustomMessageContainer.h"
+#include <iostream>
 
 CustomMessageContainer::~CustomMessageContainer() {
     Node *current = head;
@@ -18,12 +19,14 @@ void CustomMessageContainer::addMessage(char *new_message) {
         tail->next = newNode;
         tail = newNode;
     }
-    cv.notify_one();
+
+    cv.notify_all();
 }
 
 char *CustomMessageContainer::getMessage() {
     std::unique_lock<std::mutex> lock(mtx);
-    cv.wait(lock, [this]() { return head != nullptr || finished; });
+    cv.wait_for(lock, std::chrono::milliseconds(100), [this]() { return head != nullptr || finished; });
+
     if (head == nullptr) {
         return nullptr;
     }

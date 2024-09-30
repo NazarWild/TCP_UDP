@@ -1,10 +1,11 @@
 #include "MessageContainer.h"
 #include <cstdlib>
+#include <cstdio>
 
 MessageContainer::MessageContainer() {
     table = (Message **) malloc(sizeof(Message *) * TABLE_SIZE);
     if (!table) {
-        perror("Failed to allocate memory");
+        printf("Failed to allocate memory");
         exit(EXIT_FAILURE);
     } else {
         for (int i = 0; i < TABLE_SIZE; i++) {
@@ -36,7 +37,6 @@ void MessageContainer::insert(uint16_t size, uint8_t type, uint64_t id, uint64_t
     if (table[index] == nullptr) {
         table[index] = new_message;
     } else {
-        // Handle collision with chaining
         Message *temp = table[index];
         while (temp->next != nullptr) {
             temp = temp->next;
@@ -61,7 +61,7 @@ Message *MessageContainer::find(uint64_t id) {
 Message *MessageContainer::create_message(uint16_t size, uint8_t type, uint64_t id, uint64_t data) {
     Message *new_message = (Message *) malloc(sizeof(Message));
     if (!new_message) {
-        perror("Failed to allocate memory");
+        printf("Failed to allocate memory");
         return nullptr;
     }
     new_message->size = size;
