@@ -4,14 +4,6 @@
 #include <iostream>
 #include <thread>
 
-#ifdef _WIN32
-#else
-#define INVALID_SOCKET  (SOCKET)(~0)
-#define SOCKET_ERROR            (-1)
-using SOCKET = int
-#endif
-
-
 void CloseSocket(SOCKET sock) {
 #ifdef _WIN32
     closesocket(sock);

@@ -1,5 +1,6 @@
 #include "Connection.h"
 #include "MessageContainerSingleton.h"
+#include <thread>
 
 int main(int argc, const char *argv[]) {
     std::thread TcpTransmitterThread(TcpTransmitter, "127.0.0.1", 5002);

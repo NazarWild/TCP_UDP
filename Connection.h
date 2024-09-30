@@ -16,6 +16,10 @@
 #include <fcntl.h>
 #include <netinet/in.h>
 
+#define INVALID_SOCKET  (SOCKET)(~0)
+#define SOCKET_ERROR            (-1)
+using SOCKET = int
+
 #endif
 
 void CloseSocket(SOCKET sock);
