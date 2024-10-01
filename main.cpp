@@ -8,7 +8,7 @@ int main(int argc, const char *argv[]) {
     std::thread UdpReceiverThread1(UdpReceiver, 5000);
     std::thread UdpReceiverThread2(UdpReceiver, 5001);
 
-
+    //test
     Message msg;
     msg.id = 25;
     msg.data = 25;
@@ -32,6 +32,7 @@ int main(int argc, const char *argv[]) {
     UdpTransmitter("127.0.0.1", 5001, msg);
 
     std::this_thread::sleep_for(std::chrono::seconds(20));
+    //test
 
     MessageMapSingleton::GetInstance().StopThreads();
 
